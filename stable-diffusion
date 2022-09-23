@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CACHE=${HOME}/.cache/stable-diffusion
+
+if test -f ${CACHE}; then
+    pushd ${CACHE}
+    rm -rf cog.yaml cog.yaml image_to_image.py predict.py __pycache__ README.md script src
+    popd
+fi
+
+mkdir -p ${CACHE}
+tar -xf /usr/lib/stable-diffusion/stable-diffusion.tar.xz -C ${CACHE}
+
+PREV=${PWD}
+
+pushd ${CACHE}
+
+if [[ "${1}" = "download" ]]; then
+    echo "Downloading to ${CACHE}"
+    cog-ml run script/download-weights ${2}
+    exit
+fi
+
+echo "Running stable diffusion model from ${CACHE}"
+cog-ml "$@" && mv output* ${PREV}
+popd
+

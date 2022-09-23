@@ -1,0 +1,5 @@
+cog-stable-diffusion (0.1.0) jammy; urgency=medium
+
+  * Packaging for Pop!_OS
+
+ -- Michael Aaron Murphy <mmstick@pm.me>  Tue, 06 Sep 2022 22:03:25 +0200

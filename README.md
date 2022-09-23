@@ -1,19 +1,26 @@
-# Stable Diffusion Cog model
+# Pop!_OS Packaging for Stable Diffusion
 
-This is an implementation of the [Diffusers Stable Diffusion 1.4](https://huggingface.co/CompVis/stable-diffusion-v1-4) as a Cog model. [Cog packages machine learning models as standard containers.](https://github.com/replicate/cog)
+## System Installation and Requirements
 
-First, download the pre-trained weights [with your Hugging Face auth token](https://huggingface.co/settings/tokens):
+The VRAM requirements to run this model are very high. You will need a CUDA 11-capable NVIDIA GPU with 10GB+ VRAM to avoid out of memory errors. If you have such a system, then you can install the required packages on Pop!_OS with the following command. Note that if you have not previously set up docker, it will be required to add your user account to the `docker` group after installing these packages, and then restart.
 
-    cog run script/download-weights <your-hugging-face-auth-token>
+```
+sudo apt install cog-stable-diffusion nvidia-docker2
+```
 
-Then, you can run predictions:
+## Download Stable Diffusion Model
 
-    cog predict -i prompt="monkey scuba diving"
+The model is hosted at https://huggingface.co/, and it will be necessary to create an account, get an access token, and get permission to download the model.
 
-Or, build a Docker image:
+- Create an account at https://huggingface.co/
+- Create an access token at https://huggingface.co/settings/tokens.
+- Get permission to download and use the [Stable Diffusion model](https://huggingface.co/CompVis/stable-diffusion-v1-4)
+- Download the model with `stable-diffusion download {{ACCESS_TOKEN}}`
 
-    cog build
+## Running Stable Diffusion
 
-Or, [push it to Replicate](https://replicate.com/docs/guides/push-a-model):
+Arguments to `stable-diffusion` are passed on to the cog command with a predefined cog configuration for stable diffusion. For available arguments and values, [see the predict.py script](./src/predict.py). Invoking stable diffusion with a prompt input can be done like so:
 
-    cog push r8.im/...
+```
+stable-diffusion predict -i prompt="Text to execute in model"
+```
